@@ -1,0 +1,53 @@
+﻿@model Job_Application_Tracker.Models.Entities.Company
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var CompanyAppliedColor = "text-success";
+}
+<fieldset>
+    <legend>Company Info</legend>
+
+    <div class="row">
+        <div class="col-md-2">
+            @Html.LabelFor(m => m.CompanyName, null, new { @class = "font-weight-bold" })<br />
+            @Html.DisplayFor(m => m.CompanyName)
+        </div>
+        <div class="col-md-1">
+            @Html.LabelFor(m => m.Website, null, new { @class = "font-weight-bold" })<br />
+            @if (Model.Website != null)
+            {
+                <a href="@Model.Website" target="_blank">Link</a>
+            }
+        </div>
+        <div class="col-md-4">
+            @Html.LabelFor(m => m.SalaryOffered, null, new { @class = "font-weight-bold" })<br />
+            @Html.DisplayFor(m => m.SalaryOffered)
+        </div>
+        <div class="col-md-1">
+            @Html.LabelFor(m => m.DoNotApply, "Applied", new { @class = "font-weight-bold" })<br />
+            @if (Model.DoNotApply)
+            {
+                CompanyAppliedColor = "text-danger";
+            }
+            <span class="@CompanyAppliedColor">
+                @(!Boolean.Parse(Html.ValueFor(m => m.DoNotApply)))
+            </span>
+        </div>
+        <div class="col-md-2">
+            @Html.LabelFor(m => m.ApplicationStatus, null, new { @class = "font-weight-bold" })<br />
+            @Html.DisplayFor(m => m.ApplicationStatus)
+        </div>
+        <div class="col-md-2">
+            @Html.LabelFor(m => m.DateApplied, null, new { @class = "font-weight-bold" })<br />
+            @if (Model.DoNotApply)
+            {
+            <span>N/A</span>
+            }
+            else
+            {
+            @(Model.DateApplied.ToString("MM/dd/yy"))
+            }
+        </div>
+    </div>
+</fieldset>

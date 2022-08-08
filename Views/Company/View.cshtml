@@ -1,0 +1,31 @@
+﻿@model Job_Application_Tracker.Models.ViewModels.Company.VM_ViewOrEdit
+@*
+For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+<div class="text-left">
+    <div class="d-flex">
+        <div class="w-25 text-left">
+            <h1>View Company</h1>
+        </div>
+        <div class="ml-auto align-text-bottom d-flex">
+            <span class="align-self-end mr-3">
+                @{ 
+                    var editData = new Dictionary<string, string>()
+                    {
+                        { "cid", Model.Company.Id.ToString() }
+                    };
+                }
+                <a asp-action="Edit" asp-controller="Company" asp-all-route-data="editData">Edit</a>
+            <span>
+        </div>
+    </div>
+    <div class="container">
+        <partial name="~/Views/Company/Partials/View_CompanyInfo.cshtml" for="Company" />
+
+        <partial name="~/Views/Company/Partials/View_ContactList.cshtml" for="ContactListVM.Contacts" />
+
+        <partial name="~/Views/Company/Partials/View_InterviewQA.cshtml" for="Company" />
+    </div>
+</div>

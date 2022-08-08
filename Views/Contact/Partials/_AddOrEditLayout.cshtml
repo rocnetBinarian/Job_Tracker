@@ -1,0 +1,36 @@
+﻿@model Job_Application_Tracker.Models.Entities.Contact
+
+
+@Html.HiddenFor(m => m.CompanyId)
+<div class="modal-body">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-4">
+                <span class="font-weight-bold">
+                    @Html.LabelFor(m => m.Name)
+                </span><br />
+                @Html.TextBoxFor(m => m.Name, null, new { @placeholder = "Name" })
+            </div>
+            <div class="col-sm-4">
+                <span class="font-weight-bold">
+                    @Html.LabelFor(m => m.Email)
+                </span><br />
+                @Html.TextBoxFor(m => m.Email, null, new { @placeholder = "Email" })
+            </div>
+            <div class="col-sm-4">
+                <span class="font-weight-bold">
+                    @Html.LabelFor(m => m.Phone)
+                </span><br />
+                @Html.TextBoxFor(m => m.Phone, null, new { @placeholder = "Phone" })
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12">
+                <span class="font-weight-bold">
+                    @Html.LabelFor(m => m.AdditionalInfo)
+                </span><br />
+                @Html.TextAreaFor(m => m.AdditionalInfo, 5, 30, new { @placeholder = "Additional Info", @class = "w-100" })
+            </div>
+        </div>
+    </div>
+</div>

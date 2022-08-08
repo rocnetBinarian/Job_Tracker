@@ -1,0 +1,47 @@
+﻿@model List<Job_Application_Tracker.Models.Entities.Contact>
+@{
+    var mDefault = default(Job_Application_Tracker.Models.Entities.Contact);
+}
+
+<fieldset>
+    <legend>Contact Info</legend>
+
+    <div class="row">
+        <table class="table table-sm table-hover border-bottom m-auto" style="max-width:90%">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.LabelFor(m => mDefault.Name)
+                    </th>
+                    <th>
+                        @Html.LabelFor(m => mDefault.Email)
+                    </th>
+                    <th>
+                        @Html.LabelFor(m => mDefault.Phone)
+                    </th>
+                    <th>
+                        @Html.LabelFor(m => mDefault.AdditionalInfo)
+                    </th>
+                </tr>
+                @foreach (var cont in Model)
+                {
+                    <tr>
+                        <td>
+                            @cont.Name
+                        </td>
+                        <td>
+                            @(cont.Email ?? @"N\A")
+                        </td>
+                        <td>
+                            @(cont.Phone ?? @"N\A")
+                        </td>
+                        <td>
+                            @(cont.AdditionalInfo ?? @"N\A")
+                        </td>
+                    </tr>
+
+                }
+            </thead>
+        </table>
+    </div>
+</fieldset>

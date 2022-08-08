@@ -1,0 +1,94 @@
+﻿@model Job_Application_Tracker.Models.ViewModels.Company.VM_Edit_ContactList
+@{
+    var mDefault = default(Job_Application_Tracker.Models.Entities.Contact);
+}
+
+<fieldset>
+    <legend>Contact Info</legend>
+
+    <div class="row">
+        <table class="table table-sm table-hover border-bottom m-auto" style="max-width:90%">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.LabelFor(m => mDefault.Name)
+                    </th>
+                    <th>
+                        @Html.LabelFor(m => mDefault.Email)
+                    </th>
+                    <th>
+                        @Html.LabelFor(m => mDefault.Phone)
+                    </th>
+                    <th>
+                        @Html.LabelFor(m => mDefault.AdditionalInfo)
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+                @foreach (var cont in Model.Contacts)
+                {
+                    <tr>
+                        <td>
+                            @cont.Name
+                        </td>
+                        <td>
+                            @(cont.Email ?? @"N\A")
+                        </td>
+                        <td>
+                            @(cont.Phone ?? @"N\A")
+                        </td>
+                        <td>
+                            @(cont.AdditionalInfo ?? @"N\A")
+                        </td>
+                        <td>
+                            <button type="button" class="btn btn-primary edit" data-toggle="modal" data-target="#contactEditor" data-link="@Url.Action("EditContactForm", "Contact", new { cid = cont.Id })">Edit</button>
+                        </td>
+                    </tr>
+
+                }
+                <tr id="noopRow"></tr>
+            </thead>
+        </table>
+    </div>
+    <div class="row">
+        <div class="w-100 m-auto" style="max-width:90%">
+            <button type="button" class="btn btn-primary mt-2" onclick="showNewContactModal();" data-toggle="modal" data-target="#contactEditor">
+                Add Contact
+            </button>
+        </div>
+    </div>
+</fieldset>
+
+
+
+<div class="modal fade" id="contactEditor" tabindex="-1" role="dialog" aria-labelledby="contactEditorTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contactEditorTitle">Contact Editor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-dynamic-content">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script type="text/javascript">
+    window.onload = function () {
+        $("button.edit").on("click", function () {
+            $(".modal-dynamic-content").load($(this).data("link"));
+        });
+    };
+
+    function showNewContactModal() {
+        $(".modal-dynamic-content").load("@Url.Action("AddContactForm", "Contact", new { cid = Model.CompanyId })");
+    }
+</script>
+

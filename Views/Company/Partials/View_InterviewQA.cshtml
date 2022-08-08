@@ -1,0 +1,185 @@
+﻿@model Job_Application_Tracker.Models.Entities.Company
+
+    <fieldset>
+        <legend>Q/A Info</legend>
+
+        <div class="row">
+            <div class="col-3">
+                @Html.LabelFor(m => m.FullRemoteOk, null, new { @class = "font-weight-bold" })<br />
+                @if (Model.FullRemoteOk != null)
+                {
+                    string fullRemoteOkColor = "text-success";
+                    if (!(bool)Model.FullRemoteOk)
+                    {
+                        fullRemoteOkColor = "text-danger";
+                    }
+                    <span class="@fullRemoteOkColor">
+                        @Html.ValueFor(m => m.FullRemoteOk)
+                    </span>
+                } else
+                {
+                    <span>Unset</span>
+                }
+            </div>
+            <div class="col-3">
+                @Html.LabelFor(m => m.OutsideUSOK, null, new { @class = "font-weight-bold" })<br />
+                @if (Model.OutsideUSOK != null)
+                {
+                    string outsideUSOkColor = "text-success";
+                    if (!(bool)Model.OutsideUSOK)
+                    {
+                        outsideUSOkColor = "text-danger";
+                    }
+                    <span class="@outsideUSOkColor">
+                        @Html.ValueFor(m => m.OutsideUSOK)
+                    </span>
+                }
+                else
+                {
+                    <span>Unset</span>
+                }
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-2">
+                @Html.LabelFor(m => m.WhyWorkHere, null, new { @class = "font-weight-bold" })
+            </div>
+            <div class="col-10">
+                @Html.TextAreaFor(m => m.WhyWorkHere, 5, 1, new { @class = "w-100", @disabled = "disabled" })
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-2">
+                @Html.LabelFor(m => m.Culture, null, new { @class = "font-weight-bold" })
+            </div>
+            <div class="col-10">
+                @Html.TextAreaFor(m => m.Culture, 5, 1, new { @class = "w-100", @disabled = "disabled" })
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-2">
+                @Html.LabelFor(m => m.IntraLvlCommunication, null, new { @class = "font-weight-bold" })
+            </div>
+            <div class="col-10">
+                @Html.TextAreaFor(m => m.IntraLvlCommunication, 5, 1, new { @class = "w-100", @disabled = "disabled" })
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-2">
+                @Html.LabelFor(m => m.ViewsOnFOSS, null, new {  @class = "font-weight-bold" })
+            </div>
+            <div class="col-10">
+                @Html.TextAreaFor(m => m.ViewsOnFOSS, 5, 1, new { @class = "w-100", @disabled = "disabled" })
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-2">
+                @Html.LabelFor(m => m.SecurityVsConvenience, null, new { @class = "font-weight-bold" })
+            </div>
+            <div class="col-10">
+                @Html.TextAreaFor(m => m.SecurityVsConvenience, 5, 1, new { @class = "w-100", @disabled = "disabled" })
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="row mt-3">
+            <div class="col-3">
+                @Html.LabelFor(m => m.CompanySize, null, new { @class = "font-weight-bold" })<br />
+                @if (Model.CompanySize == null)
+                {
+                    <span>Unset</span>
+                }
+                else
+                {
+                    @Html.ValueFor(m => m.CompanySize)
+                }
+            </div>
+            <div class="col-3">
+                @Html.LabelFor(m => m.DepartmentSize, null, new { @class = "font-weight-bold" })<br />
+                @if (Model.DepartmentSize == null)
+                {
+                    <span>Unset</span>
+                }
+                else
+                {
+                    @Html.ValueFor(m => m.DepartmentSize)
+                }
+            </div>
+            <div class="col-3">
+                @Html.LabelFor(m => m.TeamSize, null, new { @class = "font-weight-bold" })<br />
+                @if (Model.TeamSize == null)
+                {
+                    <span>Unset</span>
+                }
+                else
+                {
+                    @Html.ValueFor(m => m.TeamSize)
+                }
+            </div>
+        </div>
+
+        <hr />
+
+        <div class="row mt-3">
+            <div class="col-2">
+                @Html.LabelFor(m => m.k401Match, null, new { @class = "font-weight-bold" })
+            </div>
+            <div class="col-2">
+                @if (Model.k401Match != null)
+                {
+                    @:@Html.ValueFor(m => m.k401Match)%
+                }
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-2">
+                @Html.LabelFor(m => m.HealthInsPercent, null, new { @class = "font-weight-bold" })
+            </div>
+            <div class="col-2">
+                @if (Model.HealthInsPercent != null)
+                {
+                    @:@Html.ValueFor(m => m.HealthInsPercent)%
+                }
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-2">
+                @Html.LabelFor(m => m.DentalInsPercent, null, new { @class = "font-weight-bold" })
+            </div>
+            <div class="col-2">
+                @if (Model.DentalInsPercent != null)
+                {
+                    @:@Html.ValueFor(m => m.DentalInsPercent)%
+                }
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-2">
+                @Html.LabelFor(m => m.VisionInsPercent, null, new { @class = "font-weight-bold" })
+            </div>
+            <div class="col-2">
+                @if (Model.VisionInsPercent != null)
+                {
+                    @:@Html.ValueFor(m => m.VisionInsPercent)%
+                }
+            </div>
+        </div>
+
+        <div class="row mt-3">
+            <div class="col-2">
+                @Html.LabelFor(m => m.Notes, null, new { @class = "font-weight-bold" })
+            </div>
+            <div class="col-10">
+                @Html.TextAreaFor(m => m.Notes, 5, 1, new { @class = "w-100", @disabled = "disabled" })
+            </div>
+        </div>
+    </fieldset>

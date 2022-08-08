@@ -1,0 +1,52 @@
+﻿@model Job_Application_Tracker.Models.Entities.Company
+@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+    var CompanyAppliedColor = "text-success";
+}
+<fieldset>
+    <legend>Company Info</legend>
+    <form asp-action="UpdateInfo" asp-controller="Company" method="post">
+        @Html.HiddenFor(m => m.Id)
+
+        <div class="row">
+            <div class="col-md-2">
+                @Html.LabelFor(m => m.CompanyName, null, new { @class = "font-weight-bold" })<br />
+                @Html.DisplayFor(m => m.CompanyName)
+            </div>
+            <div class="col-md-1">
+                @Html.LabelFor(m => m.Website, null, new { @class = "font-weight-bold" })<br />
+                @Html.TextBoxFor(m => m.Website, null, new { @placeholder = "Website", @class = "mw-100" })
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(m => m.SalaryOffered, null, new { @class = "font-weight-bold" })<br />
+                @Html.TextBoxFor(m => m.SalaryOffered, null, new { @placeholder = "Yearly Salary", @class = "mw-100" })
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(m => m.DoNotApply, "Applied", new { @class = "font-weight-bold" })<br />
+                @Html.RadioButtonFor(m => m.DoNotApply, false) Applied<br />
+                @Html.RadioButtonFor(m => m.DoNotApply, true) Opted to not apply<br />
+            </div>
+            <div class="col-md-3">
+                @Html.LabelFor(m => m.ApplicationStatus, null, new { @class = "font-weight-bold" })<br />
+                @foreach (var e in Enum.GetValues(typeof(Job_Application_Tracker.Models.Entities.AppStatus)))
+                {
+                    <span>@Html.RadioButtonFor(m => m.ApplicationStatus, e)</span> @e.ToString()<br />
+                }
+            </div>
+            <div class="col-md-2">
+                @Html.LabelFor(m => m.DateApplied, null, new { @class = "font-weight-bold" })<br />
+                @if (Model.DoNotApply)
+                {
+                <span>N/A</span>
+                }
+                else
+                {
+                @(Model.DateApplied.ToString("MM/dd/yy"))
+                }
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success mt-3 float-right">Save</button>
+    </form>
+</fieldset>
