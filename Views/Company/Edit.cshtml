@@ -33,7 +33,7 @@
                     <div class="row">
                         <div class="col-md-2">
                             @Html.LabelFor(m => m.Company.CompanyName, null, new { @class = "font-weight-bold" })<br />
-                            @Html.DisplayFor(m => m.Company.CompanyName)
+                            @Html.TextBoxFor(m => m.Company.CompanyName, null, new { @class = "mw-100" })
                         </div>
                         <div class="col-md-1">
                             @Html.LabelFor(m => m.Company.Website, null, new { @class = "font-weight-bold" })<br />
@@ -63,7 +63,7 @@
                             }
                             else
                             {
-                            @(Model.Company.DateApplied.ToString("MM/dd/yy"))
+                                @Html.TextBoxFor(m => m.Company.DateApplied, "{0:MM/dd/yy}", new {@class = "mw-100" })
                             }
                         </div>
                     </div>
@@ -281,7 +281,12 @@
     </div>
 </div>
 
-@section Scripts{
+@section Header {
+<link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+}
+
+@section Scripts {
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
 <script type="text/javascript">
     window.onload = function () {
         $("button.edit").on("click", function () {
@@ -292,5 +297,7 @@
     function showNewContactModal() {
         $(".modal-dynamic-content").load("@Url.Action("AddContactForm", "Contact", new { cid = Model.Company.Id })");
     }
+
+    $("#Company_DateApplied").datepicker();
 </script>
 }

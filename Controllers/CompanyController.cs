@@ -88,6 +88,7 @@ namespace Job_Application_Tracker.Controllers
         public async Task<IActionResult> UpdateAll(Company company) {
             using (JATContext context = new JATContext()) {
                 var comp = await context.Companies.FirstOrDefaultAsync(x => x.Id == company.Id).ConfigureAwait(false);
+                comp.CompanyName = company.CompanyName;
                 comp.SalaryOffered = company.SalaryOffered;
                 if (company.DoNotApply == true && comp.DoNotApply == false)
                     comp.DateApplied = DateTime.Today;
@@ -98,6 +99,7 @@ namespace Job_Application_Tracker.Controllers
                 } else
                 {
                     comp.ApplicationStatus = company.ApplicationStatus;
+                    comp.DateApplied = company.DateApplied;
                 }
 
                 comp.DoNotApply = company.DoNotApply;
