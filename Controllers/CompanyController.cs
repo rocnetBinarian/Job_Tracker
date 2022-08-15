@@ -84,6 +84,47 @@ namespace Job_Application_Tracker.Controllers
         }
 
         [HttpPost]
+        [Route("Save")]
+        public async Task<IActionResult> UpdateAll(Company company) {
+            using (JATContext context = new JATContext()) {
+                var comp = await context.Companies.FirstOrDefaultAsync(x => x.Id == company.Id).ConfigureAwait(false);
+                comp.SalaryOffered = company.SalaryOffered;
+                if (company.DoNotApply == true && comp.DoNotApply == false)
+                    comp.DateApplied = DateTime.Today;
+
+                if (company.DoNotApply)
+                {
+                    comp.ApplicationStatus = null;
+                } else
+                {
+                    comp.ApplicationStatus = company.ApplicationStatus;
+                }
+
+                comp.DoNotApply = company.DoNotApply;
+                comp.Website = company.Website;
+
+                
+                comp.FullRemoteOk = company.FullRemoteOk;
+                comp.OutsideUSOK = company.OutsideUSOK;
+                comp.WhyWorkHere = company.WhyWorkHere;
+                comp.Culture = company.Culture;
+                comp.IntraLvlCommunication = company.IntraLvlCommunication;
+                comp.ViewsOnFOSS = company.ViewsOnFOSS;
+                comp.SecurityVsConvenience = company.SecurityVsConvenience;
+                comp.CompanySize = company.CompanySize;
+                comp.DepartmentSize = company.DepartmentSize;
+                comp.TeamSize = company.TeamSize;
+                comp.k401Match = company.k401Match;
+                comp.HealthInsPercent = company.HealthInsPercent;
+                comp.DentalInsPercent = company.DentalInsPercent;
+                comp.VisionInsPercent = company.VisionInsPercent;
+                comp.Notes = company.Notes;
+                await context.SaveChangesAsync().ConfigureAwait(false);
+                return RedirectToAction("View", new { cid = company.Id });
+            }
+        }
+
+        [HttpPost]
         [Route("Edit/Info")]
         public async Task<IActionResult> UpdateInfo(Company company)
         {

@@ -2,6 +2,10 @@
 @*
     For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 *@
+@{
+    var CompanyAppliedColor = "text-success";
+    var mDefault = default(Job_Application_Tracker.Models.Entities.Contact);
+}
 
 <div class="text-left">
     <div class="d-flex">
@@ -21,10 +25,272 @@
         </div>
     </div>
     <div class="container">
-        <partial name="~/Views/Company/Partials/Edit_CompanyInfo.cshtml" for="Company" />
+        <form asp-action="UpdateAll" asp-controller="Company" method="post">
+            <fieldset>
+                <legend>Company Info</legend>
+                    @Html.HiddenFor(m => m.Company.Id)
 
-        <partial name="~/Views/Company/Partials/Edit_ContactList.cshtml" for="ContactListVM" />
+                    <div class="row">
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.Company.CompanyName, null, new { @class = "font-weight-bold" })<br />
+                            @Html.DisplayFor(m => m.Company.CompanyName)
+                        </div>
+                        <div class="col-md-1">
+                            @Html.LabelFor(m => m.Company.Website, null, new { @class = "font-weight-bold" })<br />
+                            @Html.TextBoxFor(m => m.Company.Website, null, new { @placeholder = "Website", @class = "mw-100" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.Company.SalaryOffered, null, new { @class = "font-weight-bold" })<br />
+                            @Html.TextBoxFor(m => m.Company.SalaryOffered, null, new { @placeholder = "Yearly Salary", @class = "mw-100" })
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.Company.DoNotApply, "Applied", new { @class = "font-weight-bold" })<br />
+                            @Html.RadioButtonFor(m => m.Company.DoNotApply, false) Applied<br />
+                            @Html.RadioButtonFor(m => m.Company.DoNotApply, true) Opted to not apply<br />
+                        </div>
+                        <div class="col-md-3">
+                            @Html.LabelFor(m => m.Company.ApplicationStatus, null, new { @class = "font-weight-bold" })<br />
+                            @foreach (var e in Enum.GetValues(typeof(Job_Application_Tracker.Models.Entities.AppStatus)))
+                            {
+                                <span>@Html.RadioButtonFor(m => m.Company.ApplicationStatus, e)</span> @e.ToString()<br />
+                            }
+                        </div>
+                        <div class="col-md-2">
+                            @Html.LabelFor(m => m.Company.DateApplied, null, new { @class = "font-weight-bold" })<br />
+                            @if (Model.Company.DoNotApply)
+                            {
+                            <span>N/A</span>
+                            }
+                            else
+                            {
+                            @(Model.Company.DateApplied.ToString("MM/dd/yy"))
+                            }
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-success mt-3 float-right">Save</button>
+                <!--</form>-->
+            </fieldset>
 
-        <partial name="~/Views/Company/Partials/Edit_InterviewQA.cshtml" for="Company" />
+            <fieldset>
+                <legend>Contact Info</legend>
+
+                <div class="row">
+                    <table class="table table-sm table-hover border-bottom m-auto" style="max-width:90%">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.LabelFor(m => mDefault.Name)
+                                </th>
+                                <th>
+                                    @Html.LabelFor(m => mDefault.Email)
+                                </th>
+                                <th>
+                                    @Html.LabelFor(m => mDefault.Phone)
+                                </th>
+                                <th>
+                                    @Html.LabelFor(m => mDefault.AdditionalInfo)
+                                </th>
+                                <th>
+                                    &nbsp;
+                                </th>
+                            </tr>
+                            @foreach (var cont in Model.ContactListVM.Contacts)
+                            {
+                                <tr>
+                                    <td>
+                                        @cont.Name
+                                    </td>
+                                    <td>
+                                        @(cont.Email ?? @"N\A")
+                                    </td>
+                                    <td>
+                                        @(cont.Phone ?? @"N\A")
+                                    </td>
+                                    <td>
+                                        @(cont.AdditionalInfo ?? @"N\A")
+                                    </td>
+                                    <td>
+                                        <button type="button" class="btn btn-primary edit" data-toggle="modal" data-target="#contactEditor" data-link="@Url.Action("EditContactForm", "Contact", new { cid = cont.Id })">Edit</button>
+                                    </td>
+                                </tr>
+
+                            }
+                            <tr id="noopRow"></tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="row">
+                    <div class="w-100 m-auto" style="max-width:90%">
+                        <button type="button" class="btn btn-primary mt-2" onclick="showNewContactModal();" data-toggle="modal" data-target="#contactEditor">
+                            Add Contact
+                        </button>
+                    </div>
+                </div>
+            </fieldset>
+
+
+            <fieldset>
+                <legend>Q/A Info</legend>
+                <!--<form asp-action="UpdateAll" asp-controller="Company" method="post">-->
+                    @Html.HiddenFor(m => m.Company.Id)
+
+                    <div class="row">
+                        <div class="col-3">
+                            @Html.LabelFor(m => m.Company.FullRemoteOk, null, new { @class = "font-weight-bold" })<br />
+                            @Html.RadioButtonFor(m => m.Company.FullRemoteOk, true) OK<br />
+                            @Html.RadioButtonFor(m => m.Company.FullRemoteOk, false) Not OK
+                        </div>
+                        <div class="col-3">
+                            @Html.LabelFor(m => m.Company.OutsideUSOK, null, new { @class = "font-weight-bold" })<br />
+                            @Html.RadioButtonFor(m => m.Company.OutsideUSOK, true) OK<br />
+                            @Html.RadioButtonFor(m => m.Company.OutsideUSOK, false) Not OK
+                        </div>
+                    </div>
+
+                    <div class="row mt-5">
+                        <div class="col-2">
+                            @Html.LabelFor(m => m.Company.WhyWorkHere, null, new { @class = "font-weight-bold" })
+                        </div>
+                        <div class="col-10">
+                            @Html.TextAreaFor(m => m.Company.WhyWorkHere, 5, 1, new { @class = "w-100" })
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-2">
+                            @Html.LabelFor(m => m.Company.Culture, null, new { @class = "font-weight-bold" })
+                        </div>
+                        <div class="col-10">
+                            @Html.TextAreaFor(m => m.Company.Culture, 5, 1, new { @class = "w-100" })
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-2">
+                            @Html.LabelFor(m => m.Company.IntraLvlCommunication, null, new { @class = "font-weight-bold" })
+                        </div>
+                        <div class="col-10">
+                            @Html.TextAreaFor(m => m.Company.IntraLvlCommunication, 5, 1, new { @class = "w-100" })
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-2">
+                            @Html.LabelFor(m => m.Company.ViewsOnFOSS, null, new { @class = "font-weight-bold" })
+                        </div>
+                        <div class="col-10">
+                            @Html.TextAreaFor(m => m.Company.ViewsOnFOSS, 5, 1, new { @class = "w-100" })
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-2">
+                            @Html.LabelFor(m => m.Company.SecurityVsConvenience, null, new { @class = "font-weight-bold" })
+                        </div>
+                        <div class="col-10">
+                            @Html.TextAreaFor(m => m.Company.SecurityVsConvenience, 5, 1, new { @class = "w-100" })
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="row mt-3">
+                        <div class="col-3">
+                            @Html.LabelFor(m => m.Company.CompanySize, null, new { @class = "font-weight-bold" })<br />
+                            @Html.TextBoxFor(m => m.Company.CompanySize)
+                        </div>
+                        <div class="col-3">
+                            @Html.LabelFor(m => m.Company.DepartmentSize, null, new { @class = "font-weight-bold" })<br />
+                            @Html.TextBoxFor(m => m.Company.DepartmentSize)
+                        </div>
+                        <div class="col-3">
+                            @Html.LabelFor(m => m.Company.TeamSize, null, new { @class = "font-weight-bold" })<br />
+                            @Html.TextBoxFor(m => m.Company.TeamSize)
+                        </div>
+                    </div>
+
+                    <hr />
+
+                    <div class="row mt-3">
+                        <div class="col-2">
+                            @Html.LabelFor(m => m.Company.k401Match, null, new { @class = "font-weight-bold" })
+                        </div>
+                        <div class="col-2">
+                            @Html.TextBoxFor(m => m.Company.k401Match, null, new { @class = "w-50" }) %
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-2">
+                            @Html.LabelFor(m => m.Company.HealthInsPercent, null, new { @class = "font-weight-bold" })
+                        </div>
+                        <div class="col-2">
+                            @Html.TextBoxFor(m => m.Company.HealthInsPercent, null, new { @class = "w-50" }) %
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-2">
+                            @Html.LabelFor(m => m.Company.DentalInsPercent, null, new { @class = "font-weight-bold" })
+                        </div>
+                        <div class="col-2">
+                            @Html.TextBoxFor(m => m.Company.DentalInsPercent, null, new { @class = "w-50" }) %
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-2">
+                            @Html.LabelFor(m => m.Company.VisionInsPercent, null, new { @class = "font-weight-bold" })
+                        </div>
+                        <div class="col-2">
+                            @Html.TextBoxFor(m => m.Company.VisionInsPercent, null, new { @class = "w-50" }) %
+                        </div>
+                    </div>
+
+                    <div class="row mt-3">
+                        <div class="col-2">
+                            @Html.LabelFor(m => m.Company.Notes, null, new { @class = "font-weight-bold" })
+                        </div>
+                        <div class="col-10">
+                            @Html.TextAreaFor(m => m.Company.Notes, 5, 1, new { @class = "w-100" })
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn btn-success mt-3 float-right">Save</button>
+            </fieldset>
+            
+            </form>
     </div>
 </div>
+
+
+
+<div class="modal fade" id="contactEditor" tabindex="-1" role="dialog" aria-labelledby="contactEditorTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="contactEditorTitle">Contact Editor</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-dynamic-content">
+
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+<script type="text/javascript">
+    window.onload = function () {
+        $("button.edit").on("click", function () {
+            $(".modal-dynamic-content").load($(this).data("link"));
+        });
+    };
+
+    function showNewContactModal() {
+        $(".modal-dynamic-content").load("@Url.Action("AddContactForm", "Contact", new { cid = Model.Company.Id })");
+    }
+</script>
+}
