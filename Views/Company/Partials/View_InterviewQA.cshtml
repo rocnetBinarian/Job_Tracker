@@ -182,4 +182,13 @@
                 @Html.TextAreaFor(m => m.Notes, 5, 1, new { @class = "w-100", @disabled = "disabled" })
             </div>
         </div>
+
+        <div class="row mt-3">
+            <div class="col-2">
+                @Html.LabelFor(m => m.JobPosting, null, new { @class = "font-weight-bold" })
+            </div>
+            <div class="col-10">
+                @Html.TextAreaFor(m => m.JobPosting, 5, 1, new { @class = "w-100", @disabled = "disabled" })
+            </div>
+        </div>
     </fieldset>

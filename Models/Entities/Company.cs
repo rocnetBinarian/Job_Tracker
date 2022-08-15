@@ -70,6 +70,9 @@ namespace Job_Application_Tracker.Models.Entities
         [Display(Name = "Security vs. Convenience", Prompt = "What is the company's position on security vs. convenience?  For example, if it was discovered that someone was sharing passwords, what would happen?  What if leadership wants a new feature to be less secure, because the security measures are 'too annoying'?")]
         public string SecurityVsConvenience { get; set; }
 
+        [Display(Name = "Job Posting")]
+        public string JobPosting {get; set;}
+
         public ICollection<Contact> Contacts { get; set; }
     }
 

@@ -125,7 +125,7 @@ namespace Job_Application_Tracker.Controllers
                 return RedirectToAction("View", new { cid = company.Id });
             }
         }
-
+/*
         [HttpPost]
         [Route("Edit/Info")]
         public async Task<IActionResult> UpdateInfo(Company company)
@@ -178,7 +178,7 @@ namespace Job_Application_Tracker.Controllers
                 return RedirectToAction("View", new { cid = company.Id });
             }
         }
-
+*/
         [HttpGet]
         [Route("View/{cid}")]
         public async Task<IActionResult> View(int cid)
