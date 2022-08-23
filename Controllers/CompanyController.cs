@@ -121,6 +121,7 @@ namespace Job_Application_Tracker.Controllers
                 comp.DentalInsPercent = company.DentalInsPercent;
                 comp.VisionInsPercent = company.VisionInsPercent;
                 comp.Notes = company.Notes;
+                comp.JobPosting = company.JobPosting;
                 await context.SaveChangesAsync().ConfigureAwait(false);
                 return RedirectToAction("View", new { cid = company.Id });
             }
