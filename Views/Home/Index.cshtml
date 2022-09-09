@@ -16,86 +16,31 @@
     </div>
     <div class="row mt-3">
         <div class="col-12">
-            <table id="companyTable" class="table table-sm table-striped table-hover border-bottom">
-                <thead>
-                    <tr>
-                        <th>
-                            @Html.LabelFor(m => defaultCompany.CompanyName)
-                        </th>
-                        <th>
-                            @Html.LabelFor(m => defaultCompany.Website)
-                        </th>
-                        <th>
-                            @Html.LabelFor(m => defaultCompany.SalaryOffered)
-                        </th>
-                        <th>
-                            @Html.LabelFor(m => defaultCompany.DoNotApply)
-                        </th>
-                        <th>
-                            @Html.LabelFor(m => defaultCompany.ApplicationStatus)
-                        </th>
-                        <th>
-                            Date Added
-                        </th>
-                        <th>
-                            More Info
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var comp in Model.CompanyList)
-                    {
-                        <tr>
-                            <td>
-                                @comp.CompanyName
-                            </td>
-                            <td>
-                                <a href="@comp.Website" target="_blank">@comp.Website</a>
-                            </td>
-                            <td>
-                                @comp.SalaryOffered
-                            </td>
-                            <td>
-                                @if (comp.DoNotApply)
-                                {
-                                    <span class="text-danger font-weight-bold">
-                                        Did Not Apply
-                                    </span>
-                                }
-                                else
-                                {
-                                    <span class="text-success font-weight-bold">
-                                        Applied
-                                    </span>
-                                }
-                            </td>
-                            <td>
-                                @if (!comp.DoNotApply)
-                                {
-                                    <span>@comp.ApplicationStatus.ToString()</span>
-                                }
-                            </td>
-                            <td>
-                                @(comp.DateApplied.ToString("MM/dd/yy"))
-                            </td>
-                            <td>
-                                @{
-                                    var data = new Dictionary<string, string>();
-                                    data.Add("cid", comp.Id.ToString());
-                                }
-                                <a asp-action="View" asp-controller="Company" asp-all-route-data="data">More...</a>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <div id="CompanyList"></div>
         </div>
     </div>
 </div>
 
+@section Header {
+    
+<environment names="Debug,Development">
+    <script src="https://unpkg.com/react@18/umd/react.development.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js" crossorigin></script>
+</environment>
+<environment names="Staging,Production">
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+</environment>
+
+}
+
+@section Scripts {
+
+<script src="~/js/React/companyTable.jsx"></script>
 <script type="text/javascript" src="js/moment.js"></script>
 <!-- Adapted from https://www.w3schools.com/howto/howto_js_filter_table.asp -->
 <script type="text/javascript">
+
 
     var razorData = [
         @foreach  (var item in Model.CompanyList) {
@@ -170,3 +115,6 @@
         }
     }
 </script>
+
+
+}

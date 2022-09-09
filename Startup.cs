@@ -9,6 +9,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 
+using Microsoft.AspNetCore.Http;
+using JavaScriptEngineSwitcher.ChakraCore;
+using JavaScriptEngineSwitcher.Extensions.MsDependencyInjection;
+using React.AspNet;
 namespace Job_Application_Tracker
 {
     public class Startup
@@ -24,6 +28,10 @@ namespace Job_Application_Tracker
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddReact();
+            services.AddJsEngineSwitcher(o => o.DefaultEngineName = ChakraCoreJsEngine.EngineName)
+                .AddChakraCore();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,6 +59,11 @@ namespace Job_Application_Tracker
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+
+            app.UseReact(config => {
+                config.AddScript("~/js/React/companyTable.jsx");
+            });
+
             app.UseStaticFiles();
 
             app.UseRouting();
