@@ -31,6 +31,7 @@
     <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
 </environment>
+<script src="https://kit.fontawesome.com/43e0625ede.js" crossorigin="anonymous"></script>
 
 }
 
@@ -45,6 +46,7 @@
     var razorData = [
         @foreach  (var item in Model.CompanyList) {
             @Html.Raw("{ "+
+                "key: \"" + item.Id + "\"," +
                 "CompanyName: \"" + item.CompanyName + "\"," +
                 "Website: \"" + item.Website + "\"," +
                 "Salary: \"" + item.SalaryOffered + "\"," +

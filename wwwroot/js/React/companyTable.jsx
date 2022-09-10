@@ -1,7 +1,50 @@
 class CompanyTable extends React.Component {
+    constructor(props) {
+        super(props);
+        this.DefaultListData = [...razorData];
+        this.state = {
+            sortState: 0,
+            sortIcon: "fa-solid fa-sort",
+            listData: this.DefaultListData
+        };
+
+        this.changeSort = this.changeSort.bind(this);
+    };
+
+    changeSort() {
+        if (this.state.sortState == 0) {
+            this.setState((prev, cur) => ({
+                sortState: 1,
+                sortIcon: "fa-solid fa-sort-up",
+                listData: [...this.DefaultListData].sort(
+                    (a, b) => (
+                            b.DateAdded - a.DateAdded
+                        )
+                    )
+            }));
+        } else if (this.state.sortState == 1) {
+            this.setState((prev, cur) => ({
+                sortState: -1,
+                sortIcon: "fa-solid fa-sort-down",
+                listData: [...this.DefaultListData].sort(
+                    (a, b) => (
+                            a.DateAdded - b.DateAdded
+                        )
+                    )
+            }));
+        } else if (this.state.sortState == -1) {
+            this.setState((prev, cur) => ({
+                sortState: 0,
+                sortIcon: "fa-solid fa-sort",
+                listData: this.DefaultListData
+            }));
+        }
+    };
+
     render() {
         const trList = [];
-        razorData.forEach((item) => {
+
+        this.state.listData.forEach((item) => {
             var da = moment(item.DateAdded).format("MM/DD/YY");
             var Applied;
             if (item.DoNotApply == 'True') {
@@ -16,6 +59,7 @@ class CompanyTable extends React.Component {
                         Applied
                     </span>
             }
+
             var MoreInfoURL = "/Company/View/"+item.MoreInfo;
             trList.push(
                 <tr>
@@ -63,7 +107,7 @@ class CompanyTable extends React.Component {
                             Application Status
                         </th>
                         <th>
-                            Date Added
+                            Date Added <a href="#" onClick={this.changeSort}><i class={this.state.sortIcon}></i></a>
                         </th>
                         <th>
                             More Info
