@@ -23,12 +23,19 @@ namespace Job_Application_Tracker.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var vm = new VM_Index();
+            return View();
+        }
+
+        [Route("CompanyList")]
+        public async Task<JsonResult> GetCompanyList() 
+        {
+            var vm = new VM_Index_CompanyList();
             using (JATContext context = new JATContext())
             {
                 vm.CompanyList = await context.Companies.OrderBy(c => c.CompanyName).ToListAsync().ConfigureAwait(false);
+                vm.EnumNames = Enum.GetNames(typeof(AppStatus));
             }
-            return View(vm);
+            return Json(vm);
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

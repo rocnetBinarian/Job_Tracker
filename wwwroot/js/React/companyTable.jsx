@@ -1,7 +1,8 @@
 class CompanyTable extends React.Component {
     constructor(props) {
         super(props);
-        this.DefaultListData = [...razorData];
+        this.DefaultListData = [];
+        this.AppStatusEnumTags = [];
         this.state = {
             sortState: 0,
             sortIcon: "fa-solid fa-sort",
@@ -9,7 +10,23 @@ class CompanyTable extends React.Component {
         };
 
         this.changeSort = this.changeSort.bind(this);
+        this.componentDidMount = this.componentDidMount.bind(this);
     };
+
+    componentDidMount() {
+        var ctThis = this;
+        $.ajax({
+            url: "/CompanyList/",
+            method: 'GET',
+            success: function(r) {
+                ctThis.DefaultListData = r.companyList;
+                ctThis.AppStatusEnumTags = r.enumNames;
+                ctThis.setState({
+                    listData: ctThis.DefaultListData
+                });
+            }
+        });
+    }
 
     changeSort() {
         if (this.state.sortState == 0) {
@@ -45,9 +62,9 @@ class CompanyTable extends React.Component {
         const trList = [];
 
         this.state.listData.forEach((item) => {
-            var da = moment(item.DateAdded).format("MM/DD/YY");
+            var da = moment(item.dateAdded).format("MM/DD/YY");
             var Applied;
-            if (item.DoNotApply == 'True') {
+            if (item.doNotApply) {
                 Applied = (
                     <span class="text-danger font-weight-bold">
                         Did Not Apply
@@ -60,23 +77,23 @@ class CompanyTable extends React.Component {
                     </span>
             }
 
-            var MoreInfoURL = "/Company/View/"+item.MoreInfo;
+            var MoreInfoURL = "/Company/View/"+item.id;
             trList.push(
-                <tr>
+                <tr key={item.id}>
                     <td>
-                        {item.CompanyName}
+                        {item.companyName}
                     </td>
                     <td>
-                        {item.Website}
+                        {item.website}
                     </td>
                     <td>
-                        {item.Salary}
+                        {item.salaryOffered}
                     </td>
                     <td>
                         {Applied}
                     </td>
                     <td>
-                        {item.ApplicationStatus}
+                        {this.AppStatusEnumTags[item.applicationStatus]}
                     </td>
                     <td>
                         {da}

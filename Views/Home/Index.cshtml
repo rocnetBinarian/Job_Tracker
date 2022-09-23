@@ -1,7 +1,5 @@
-﻿@model Job_Application_Tracker.Models.ViewModels.Home.VM_Index
-@{
+﻿@{
     ViewData["Title"] = "Home Page";
-    var defaultCompany = default(Job_Application_Tracker.Models.Entities.Company);
 }
 
 <div class="text-center">
@@ -42,20 +40,6 @@
 <!-- Adapted from https://www.w3schools.com/howto/howto_js_filter_table.asp -->
 <script type="text/javascript">
 
-
-    var razorData = [
-        @foreach  (var item in Model.CompanyList) {
-            @Html.Raw("{ "+
-                "key: \"" + item.Id + "\"," +
-                "CompanyName: \"" + item.CompanyName + "\"," +
-                "Website: \"" + item.Website + "\"," +
-                "Salary: \"" + item.SalaryOffered + "\"," +
-                "DoNotApply: \"" + item.DoNotApply + "\"," +
-                "ApplicationStatus: \"" + item.ApplicationStatus + "\"," +
-                "DateAdded: new Date(\"" + item.DateApplied.ToString("MM/dd/yy") + "\")," +
-                "MoreInfo: \"" + item.Id + "\" },");
-        }
-    ];
 
     window.onload = function () {
         $("#compSearch").val("");
